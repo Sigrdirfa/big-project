@@ -4,7 +4,7 @@ import com.witnesses.bigproject.dao.UserRepository;
 import com.witnesses.bigproject.dto.AuthenticationRequest;
 import com.witnesses.bigproject.dto.AuthenticationResponse;
 import com.witnesses.bigproject.dto.RegisterRequest;
-import com.witnesses.bigproject.pojo.Role;
+import com.witnesses.bigproject.constant.Role;
 import com.witnesses.bigproject.pojo.User;
 import com.witnesses.bigproject.service.AuthenticationService;
 import com.witnesses.bigproject.service.JwtService;

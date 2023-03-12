@@ -1,5 +1,6 @@
 package com.witnesses.bigproject.pojo;
 
+import com.witnesses.bigproject.constant.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
