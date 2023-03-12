@@ -1,21 +1,13 @@
 package com.witnesses.bigproject.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class RegisterRequest {
-
-    private String firstName;
-
-    private String lastName;
-
-    private String email;
-
-    private String password;
+public record RegisterRequest(
+        String firstName,
+        String lastName,
+        String email,
+        String password
+) {
 }

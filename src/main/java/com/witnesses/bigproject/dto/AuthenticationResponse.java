@@ -1,15 +1,9 @@
 package com.witnesses.bigproject.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class AuthenticationResponse {
-
-    private String token;
+public record AuthenticationResponse(
+        String token
+) {
 }
