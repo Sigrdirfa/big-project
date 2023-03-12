@@ -13,15 +13,21 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+import static jakarta.persistence.GenerationType.IDENTITY;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "user")
+@Table(
+        name = "user",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "email_unique", columnNames = {"email"})
+        })
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = IDENTITY)
     private Integer id;
 
     private String firstName;
@@ -30,10 +36,22 @@ public class User implements UserDetails {
 
     private String email;
 
-    private String password;
+    private String passWord;
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    private Boolean enabled;
+
+    private Boolean accountNonExpired;
+
+    private Boolean credentialsNonExpired;
+
+    private Boolean accountNonLocked;
+
+//    private List<Role> roles;
+
+    private Boolean isDeleted;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -47,7 +65,7 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return password;
+        return passWord;
     }
     @Override
     public boolean isAccountNonExpired() {

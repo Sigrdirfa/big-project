@@ -32,7 +32,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .firstName(request.firstName())
                 .lastName(request.lastName())
                 .email(request.email())
-                .password(passwordEncoder.encode(request.password()))
+                .passWord(passwordEncoder.encode(request.password()))
                 .role(Role.USER)
                 .build();
         userRepository.save(user);
