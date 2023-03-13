@@ -11,8 +11,14 @@
     <groupId>com.witnesses</groupId>
     <artifactId>big-project</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>big-project</name>
     <description>big-project</description>
+    <modules>
+        <module>apps</module>
+        <module>libs</module>
+        <module>libs/agent-lib</module>
+    </modules>
     <properties>
         <java.version>17</java.version>
     </properties>
