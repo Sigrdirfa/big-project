@@ -35,23 +35,33 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = UUID)
     private String id;
 
+    @Column(nullable = false)
     private String firstName;
 
+    @Column(nullable = false)
     private String lastName;
-
+    @Column(nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String passWord;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role role;
 
+    @Column(columnDefinition = "tinyint(1) default 0", nullable = false)
+    @Generated(GenerationTime.INSERT)
     private Boolean enabled;
 
+    @Column(columnDefinition = "tinyint(1)")
     private Boolean isExpired;
 
+    @Column(columnDefinition = "tinyint(1)")
     private Boolean isCredentialsExpired;
 
+    @Column(columnDefinition = "tinyint(1) default 0", nullable = false)
+    @Generated(GenerationTime.INSERT)
     private Boolean isLocked;
 
 //    private List<Role> roles;
@@ -69,6 +79,8 @@ public class User implements UserDetails {
 
     private String modifiedBy;
 
+    @Column(columnDefinition = "tinyint(1) default 0", nullable = false)
+    @Generated(GenerationTime.INSERT)
     private Boolean isDeleted;
 
     @Override
@@ -88,17 +100,17 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return this.isExpired;
+        return !this.isExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return this.isLocked;
+        return !this.isLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return this.isCredentialsExpired;
+        return !this.isCredentialsExpired;
     }
 
     @Override

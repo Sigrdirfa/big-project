@@ -9,30 +9,30 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/engine")
+@RequestMapping("/engine/")
 @RequiredArgsConstructor
 public class EngineController {
 
     private final EngineService engineService;
 
-    @PostMapping("/signin")
+    @PostMapping("signin")
     public ResponseEntity<Void> engineSignIn(@RequestBody EngineDto engineDTO) {
         engineService.signIn(engineDTO);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{id}/update")
+    @PutMapping("{id}/update")
     public ResponseEntity<Void> engineUpdate(@PathVariable String id, @RequestBody EngineDto engineDTO) {
         engineService.update(id, engineDTO);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<EngineDto> engine(@PathVariable String id) {
         return ResponseEntity.ok(engineService.engine(id));
     }
 
-    @GetMapping("/list")
+    @GetMapping("list")
     public ResponseEntity<List<EngineDto>> engineList() {
         return ResponseEntity.ok(engineService.engineList());
     }

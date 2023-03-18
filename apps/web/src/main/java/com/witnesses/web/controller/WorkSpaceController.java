@@ -9,34 +9,34 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/workspace")
+@RequestMapping("/workspace/")
 @RequiredArgsConstructor
 public class WorkSpaceController {
     private final WorkSpaceService workSpaceService;
 
-    @PostMapping("/create")
+    @PostMapping("create")
     public ResponseEntity<WorkSpaceDto> create(WorkSpaceDto workSpaceDto) {
         return ResponseEntity.ok(workSpaceService.create(workSpaceDto));
     }
 
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("{id}/delete")
     public ResponseEntity<WorkSpaceDto> delete(@PathVariable String id) {
         workSpaceService.delete(id);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{id}/update")
+    @PutMapping("{id}/update")
     public ResponseEntity<WorkSpaceDto> update(@PathVariable String id, WorkSpaceDto workSpaceDto) {
         return ResponseEntity.ok(workSpaceService.update(id, workSpaceDto));
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<WorkSpaceDto> get(@PathVariable String id) {
+    public ResponseEntity<WorkSpaceDto> workSpace(@PathVariable String id) {
         return ResponseEntity.ok(workSpaceService.workspace(id));
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<WorkSpaceDto>> list() {
+    public ResponseEntity<List<WorkSpaceDto>> workSpaceList() {
         return ResponseEntity.ok(workSpaceService.workspaceList());
     }
 
