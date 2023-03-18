@@ -1,8 +1,6 @@
 package com.witnesses.web.controller;
 
-import com.witnesses.web.dto.AuthenticationRequest;
-import com.witnesses.web.dto.AuthenticationResponse;
-import com.witnesses.web.dto.RegisterRequest;
+import com.witnesses.web.dto.*;
 import com.witnesses.web.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,4 +25,16 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
+
+    @PostMapping("/signin")
+    public ResponseEntity<AuthenticationResponse> signIn(@RequestBody SignInRequest request) {
+        return ResponseEntity.ok(authenticationService.signIn(request));
+    }
+
+    @PostMapping("/signout")
+    public  ResponseEntity<String> signOut(@RequestBody SignOutRequest request) {
+        authenticationService.signOut(request);
+        return ResponseEntity.ok("success signout");
+    }
+
 }

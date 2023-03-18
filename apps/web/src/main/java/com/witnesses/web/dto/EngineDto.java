@@ -1,4 +1,4 @@
 package com.witnesses.web.dto;
 
-public record UserDTO() {
+public record EngineDto() {
 }

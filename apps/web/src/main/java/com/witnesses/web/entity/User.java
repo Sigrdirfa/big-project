@@ -6,14 +6,19 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
+import static jakarta.persistence.GenerationType.UUID;
 
 @Data
 @Builder
@@ -27,8 +32,8 @@ import static jakarta.persistence.GenerationType.IDENTITY;
         })
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = UUID)
+    private String id;
 
     private String firstName;
 
@@ -43,13 +48,26 @@ public class User implements UserDetails {
 
     private Boolean enabled;
 
-    private Boolean accountNonExpired;
+    private Boolean isExpired;
 
-    private Boolean credentialsNonExpired;
+    private Boolean isCredentialsExpired;
 
-    private Boolean accountNonLocked;
+    private Boolean isLocked;
 
 //    private List<Role> roles;
+
+    @Column(name = "created_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @CreatedDate
+    @Generated(GenerationTime.INSERT)
+    private Timestamp createdDate;
+
+    @Column(name = "modified_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    @UpdateTimestamp
+    private Timestamp modifiedDate;
+
+    private String createdBy;
+
+    private String modifiedBy;
 
     private Boolean isDeleted;
 
@@ -67,23 +85,24 @@ public class User implements UserDetails {
     public String getPassword() {
         return passWord;
     }
+
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return this.isExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return this.isLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return this.isCredentialsExpired;
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.enabled;
     }
 }

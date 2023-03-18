@@ -1,9 +1,7 @@
 package com.witnesses.web.service.impl;
 
+import com.witnesses.web.dto.*;
 import com.witnesses.web.repository.UserRepository;
-import com.witnesses.web.dto.AuthenticationRequest;
-import com.witnesses.web.dto.AuthenticationResponse;
-import com.witnesses.web.dto.RegisterRequest;
 import com.witnesses.web.constant.Role;
 import com.witnesses.web.entity.User;
 import com.witnesses.web.service.AuthenticationService;
@@ -55,5 +53,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return AuthenticationResponse.builder()
                 .token(token)
                 .build();
+    }
+
+    @Override
+    public AuthenticationResponse signIn(SignInRequest request) {
+        return null;
+    }
+
+    @Override
+    public void signOut(SignOutRequest request) {
     }
 }
