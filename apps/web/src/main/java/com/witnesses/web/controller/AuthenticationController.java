@@ -18,7 +18,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.register(request));
     }
 
-    @PostMapping("/confirm")
+    @PostMapping("confirm")
     public ResponseEntity<String> confirm(@RequestParam String token) {
         return ResponseEntity.ok(authenticationService.confirm(token));
     }

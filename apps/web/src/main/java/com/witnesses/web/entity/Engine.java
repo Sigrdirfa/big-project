@@ -14,6 +14,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.sql.Timestamp;
+import java.util.UUID;
 
 import static jakarta.persistence.GenerationType.UUID;
 
@@ -25,7 +26,7 @@ import static jakarta.persistence.GenerationType.UUID;
 public class Engine {
     @Id
     @GeneratedValue(strategy = UUID)
-    private String id;
+    private UUID id;
 
     @Column(name = "created_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @CreatedDate

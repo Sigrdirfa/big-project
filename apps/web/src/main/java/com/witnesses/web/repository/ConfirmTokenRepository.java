@@ -6,12 +6,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface ConfirmTokenRepository extends JpaRepository<ConfirmToken, String> {
+public interface ConfirmTokenRepository extends JpaRepository<ConfirmToken, UUID> {
     @Query
     Optional<ConfirmToken> findByToken(String token);
 
     @Query
-    Optional<ConfirmToken> findByUser(String user);
+    Optional<ConfirmToken> findByUser(UUID user);
 }

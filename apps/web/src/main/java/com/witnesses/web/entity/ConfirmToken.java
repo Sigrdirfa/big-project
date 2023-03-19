@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 import static jakarta.persistence.GenerationType.UUID;
 
 @Data
@@ -17,7 +19,7 @@ import static jakarta.persistence.GenerationType.UUID;
 public class ConfirmToken {
     @Id
     @GeneratedValue(strategy = UUID)
-    private String id;
+    private UUID id;
 
     @Column(name = "token", nullable = false)
     private String token;

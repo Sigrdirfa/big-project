@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
+
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 import static jakarta.persistence.GenerationType.UUID;
 
@@ -33,7 +35,7 @@ import static jakarta.persistence.GenerationType.UUID;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = UUID)
-    private String id;
+    private UUID id;
 
     @Column(nullable = false)
     private String firstName;

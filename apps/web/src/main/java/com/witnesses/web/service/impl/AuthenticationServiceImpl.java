@@ -7,12 +7,14 @@ import com.witnesses.web.entity.User;
 import com.witnesses.web.repository.ConfirmTokenRepository;
 import com.witnesses.web.repository.UserRepository;
 import com.witnesses.web.service.AuthenticationService;
+import com.witnesses.web.service.EmailService;
 import com.witnesses.web.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -32,12 +34,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
 
+    private final EmailService emailService;
+
     @Override
+    @Transactional
     public AuthenticationResponse register(RegisterRequest request) {
         List<String> tokens = checkDuplicateUserEmail(request.email());
         if(!CollectionUtils.isEmpty(tokens)) {
+            emailService.sendEmail(request.email(), emailService.buildEmail(request.lastName(), tokens.get(0)));
+            String confirmationEmail = "http://localhost:8080/api/auth/confirm?token=" + tokens.get(0);
             return AuthenticationResponse.builder()
-                    .token(tokens.get(0))
+                    .confirmEmail(confirmationEmail)
                     .build();
         }
 
@@ -56,10 +63,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         .token(token)
                         .user(user)
                         .build());
-        //todo: send email to enable user
-
+        emailService.sendEmail(request.email(), emailService.buildEmail(request.lastName(), token));
+        String confirmationEmail = "http://localhost:8080/api/auth/confirm?token=" + token;
         return AuthenticationResponse.builder()
-                .token(token)
+                .confirmEmail(confirmationEmail)
                 .build();
     }
 
@@ -70,11 +77,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 throw new IllegalArgumentException("User already exists");
             } else {
                 tokens.add(jwtService.generateToken(user));
+                //todo: need to check token expiration date
                 confirmTokenRepository.findByUser(user.getId()).ifPresent(confirmToken -> {
                     confirmToken.setToken(tokens.get(0));
                     confirmTokenRepository.saveAndFlush(confirmToken);
                 });
-                //todo: send email to enable user
             }
         });
         return tokens;
@@ -82,8 +89,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public String confirm(String token) {
-        confirmTokenRepository.findByToken(token).orElseThrow();
-        return null;
+        ConfirmToken confirmToken = confirmTokenRepository.findByToken(token).orElseThrow();
+        User user = confirmToken.getUser();
+        user.setEnabled(true);
+        userRepository.saveAndFlush(user);
+        return "successfully confirmed";
     }
 
     @Override
@@ -97,7 +107,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User user = userRepository.findByEmail(request.email()).orElseThrow();
         String token = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
-                .token(token)
+                .confirmEmail(token)
                 .build();
     }
 
