@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
-import static jakarta.persistence.GenerationType.UUID;
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -18,8 +16,8 @@ import static jakarta.persistence.GenerationType.UUID;
 @Table(name = "confirm_token")
 public class ConfirmToken {
     @Id
-    @GeneratedValue(strategy = UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private String id = UUID.randomUUID().toString();
 
     @Column(name = "token", nullable = false)
     private String token;

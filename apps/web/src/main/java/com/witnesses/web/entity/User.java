@@ -20,8 +20,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-import static jakarta.persistence.GenerationType.UUID;
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -34,8 +32,8 @@ import static jakarta.persistence.GenerationType.UUID;
         })
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private String id = UUID.randomUUID().toString();
 
     @Column(nullable = false)
     private String firstName;

@@ -1,9 +1,6 @@
 package com.witnesses.web.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,8 +13,6 @@ import org.springframework.data.annotation.CreatedDate;
 import java.sql.Timestamp;
 import java.util.UUID;
 
-import static jakarta.persistence.GenerationType.UUID;
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -25,8 +20,8 @@ import static jakarta.persistence.GenerationType.UUID;
 @Entity
 public class WorkSpace {
     @Id
-    @GeneratedValue(strategy = UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private String id = UUID.randomUUID().toString();
 
     @Column(name = "created_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @CreatedDate
