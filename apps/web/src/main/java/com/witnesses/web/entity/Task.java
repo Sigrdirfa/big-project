@@ -11,7 +11,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.sql.Timestamp;
-import java.util.UUID;
 
 @Data
 @Builder
@@ -20,8 +19,8 @@ import java.util.UUID;
 @Entity
 public class Task {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    private String id = UUID.randomUUID().toString();
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(name = "created_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @CreatedDate

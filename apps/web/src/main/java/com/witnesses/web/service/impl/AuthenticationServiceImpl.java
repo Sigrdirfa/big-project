@@ -88,11 +88,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
+    @Transactional
     public String confirm(String token) {
         ConfirmToken confirmToken = confirmTokenRepository.findByToken(token).orElseThrow();
         User user = confirmToken.getUser();
         user.setEnabled(true);
+       //更新用户状态
         userRepository.saveAndFlush(user);
+        confirmTokenRepository.delete(confirmToken);
         return "successfully confirmed";
     }
 
@@ -113,6 +116,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationResponse signIn(SignInRequest request) {
+        //用户登录
+
         return null;
     }
 

@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
-
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,7 +17,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @Builder
@@ -32,8 +30,8 @@ import java.util.UUID;
         })
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    private String id = UUID.randomUUID().toString();
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(nullable = false)
     private String firstName;
@@ -51,7 +49,6 @@ public class User implements UserDetails {
     private Role role;
 
     @Column(columnDefinition = "tinyint(1) default 0", nullable = false)
-    @Generated(GenerationTime.INSERT)
     private Boolean enabled;
 
     @Column(columnDefinition = "tinyint(1)")

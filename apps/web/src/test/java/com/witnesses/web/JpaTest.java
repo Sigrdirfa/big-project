@@ -9,6 +9,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class JpaTest {
     @Autowired
     private UserRepository userRepository;
+
+    //测试jpa更新数据
+    @Test
+    public void testJpaUpdate() {
+        userRepository.findByEmail("sigrdirfa@163.com").ifPresent(user -> {
+            user.setEnabled(true);
+            userRepository.save(user);
+        });
+        System.out.println(userRepository.findByEmail("sigrdirfa@163.com"));
+    }
     @Test
     public void testJpaSave() {
         userRepository.findByEmail("sigrdirfa@163.com").ifPresent(user -> {

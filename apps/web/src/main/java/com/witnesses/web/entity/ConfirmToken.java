@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -16,8 +14,8 @@ import java.util.UUID;
 @Table(name = "confirm_token")
 public class ConfirmToken {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    private String id = UUID.randomUUID().toString();
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(name = "token", nullable = false)
     private String token;
