@@ -20,7 +20,7 @@ public class ConfirmToken {
     @Column(name = "token", nullable = false)
     private String token;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 }

@@ -48,7 +48,8 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private Role role;
 
-    @Column(columnDefinition = "tinyint(1) default 0", nullable = false)
+    @Column(columnDefinition = "tinyint(1) default 0")
+//    @Generated(GenerationTime.INSERT)
     private Boolean enabled;
 
     @Column(columnDefinition = "tinyint(1)")

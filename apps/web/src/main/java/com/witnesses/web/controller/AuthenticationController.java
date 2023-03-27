@@ -23,14 +23,9 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.confirm(token));
     }
 
-    @PostMapping("authenticate")
+    @PostMapping("signin")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
         return ResponseEntity.ok(authenticationService.authenticate(request));
-    }
-
-    @PostMapping("signin")
-    public ResponseEntity<AuthenticationResponse> signIn(@RequestBody SignInRequest request) {
-        return ResponseEntity.ok(authenticationService.signIn(request));
     }
 
     @PostMapping("signout")

@@ -1,7 +1,10 @@
 package com.witnesses.web.service.impl;
 
 import com.witnesses.web.constant.Role;
-import com.witnesses.web.dto.*;
+import com.witnesses.web.dto.AuthenticationRequest;
+import com.witnesses.web.dto.AuthenticationResponse;
+import com.witnesses.web.dto.RegisterRequest;
+import com.witnesses.web.dto.SignOutRequest;
 import com.witnesses.web.entity.ConfirmToken;
 import com.witnesses.web.entity.User;
 import com.witnesses.web.repository.ConfirmTokenRepository;
@@ -44,7 +47,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             emailService.sendEmail(request.email(), emailService.buildEmail(request.lastName(), tokens.get(0)));
             String confirmationEmail = "http://localhost:8080/api/auth/confirm?token=" + tokens.get(0);
             return AuthenticationResponse.builder()
-                    .confirmEmail(confirmationEmail)
+                    .token(confirmationEmail)
                     .build();
         }
 
@@ -66,7 +69,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         emailService.sendEmail(request.email(), emailService.buildEmail(request.lastName(), token));
         String confirmationEmail = "http://localhost:8080/api/auth/confirm?token=" + token;
         return AuthenticationResponse.builder()
-                .confirmEmail(confirmationEmail)
+                .token(confirmationEmail)
                 .build();
     }
 
@@ -78,10 +81,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             } else {
                 tokens.add(jwtService.generateToken(user));
                 //todo: need to check token expiration date
-                confirmTokenRepository.findByUser(user.getId()).ifPresent(confirmToken -> {
-                    confirmToken.setToken(tokens.get(0));
-                    confirmTokenRepository.saveAndFlush(confirmToken);
-                });
+                confirmTokenRepository.findByUser(user).ifPresent(
+                        confirmToken -> {
+                            confirmToken.setToken(tokens.get(0));
+                            confirmTokenRepository.save(confirmToken);
+                        });
             }
         });
         return tokens;
@@ -96,6 +100,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
        //更新用户状态
         userRepository.saveAndFlush(user);
         confirmTokenRepository.delete(confirmToken);
+        System.out.println("USER_ENABLE:" + userRepository.findById(user.getId()).orElseThrow().getEnabled());
         return "successfully confirmed";
     }
 
@@ -110,19 +115,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User user = userRepository.findByEmail(request.email()).orElseThrow();
         String token = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
-                .confirmEmail(token)
+                .token(token)
                 .build();
     }
 
     @Override
-    public AuthenticationResponse signIn(SignInRequest request) {
-        //用户登录
-
-        return null;
-    }
-
-    @Override
     public void signOut(SignOutRequest request) {
+        //user signout
+
     }
 
 

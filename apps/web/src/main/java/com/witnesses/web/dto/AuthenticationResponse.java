@@ -4,6 +4,6 @@ import lombok.*;
 
 @Builder
 public record AuthenticationResponse(
-        String confirmEmail
+        String token
 ) {
 }

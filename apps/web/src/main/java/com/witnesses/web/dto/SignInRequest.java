@@ -1,4 +1,7 @@
 package com.witnesses.web.dto;
 
-public record SignInRequest() {
+public record SignInRequest(
+        String email,
+        String password
+) {
 }

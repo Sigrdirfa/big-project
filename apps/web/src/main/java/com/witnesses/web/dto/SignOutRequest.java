@@ -1,4 +1,6 @@
 package com.witnesses.web.dto;
 
-public record SignOutRequest() {
+public record SignOutRequest(
+        String email
+) {
 }

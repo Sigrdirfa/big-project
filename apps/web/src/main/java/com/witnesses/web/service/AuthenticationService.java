@@ -9,8 +9,6 @@ public interface AuthenticationService {
 
     AuthenticationResponse authenticate(AuthenticationRequest request);
 
-    AuthenticationResponse signIn(SignInRequest request);
-
     void signOut(SignOutRequest request);
 
 
