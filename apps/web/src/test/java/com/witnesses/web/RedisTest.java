@@ -15,7 +15,7 @@ public class RedisTest {
 
     @Test
     public void testRedis() {
-        redisKVRepository.save(new RedisKV("1", "value1"));
+        redisKVRepository.save(new RedisKV("2", "value2"));
         log.info("redis test result: {}", redisKVRepository.getRedisKvById("1"));
     }
 

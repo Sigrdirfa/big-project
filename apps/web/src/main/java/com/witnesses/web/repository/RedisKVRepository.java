@@ -12,10 +12,16 @@ public class RedisKVRepository {
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
+    /**
+     * save
+     */
     public void save(RedisKV redisKV) {
         redisTemplate.opsForHash().put(REDIS_KV, redisKV.getId(), redisKV.getValue());
     }
 
+    /**
+     * delete
+     */
     public Object getRedisKvById(String id) {
         return redisTemplate.opsForHash().get(REDIS_KV, id);
     }

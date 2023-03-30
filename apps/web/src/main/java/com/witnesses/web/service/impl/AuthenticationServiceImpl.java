@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,8 +44,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Transactional
     public AuthenticationResponse register(RegisterRequest request) {
         List<String> tokens = checkDuplicateUserEmail(request.email());
-        if(!CollectionUtils.isEmpty(tokens)) {
-            emailService.sendEmail(request.email(), emailService.buildEmail(request.lastName(), tokens.get(0)));
+        if (!CollectionUtils.isEmpty(tokens)) {
+            try {
+                emailService.sendEmail(request.email(), emailService.buildEmail(request.lastName(), tokens.get(0)));
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
             String confirmationEmail = "http://localhost:8080/api/auth/confirm?token=" + tokens.get(0);
             return AuthenticationResponse.builder()
                     .token(confirmationEmail)
@@ -66,7 +71,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         .token(token)
                         .user(user)
                         .build());
-        emailService.sendEmail(request.email(), emailService.buildEmail(request.lastName(), token));
+        try {
+            emailService.sendEmail(request.email(), emailService.buildEmail(request.lastName(), token));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         String confirmationEmail = "http://localhost:8080/api/auth/confirm?token=" + token;
         return AuthenticationResponse.builder()
                 .token(confirmationEmail)
@@ -97,7 +106,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         ConfirmToken confirmToken = confirmTokenRepository.findByToken(token).orElseThrow();
         User user = confirmToken.getUser();
         user.setEnabled(true);
-       //更新用户状态
+        //更新用户状态
         userRepository.saveAndFlush(user);
         confirmTokenRepository.delete(confirmToken);
         System.out.println("USER_ENABLE:" + userRepository.findById(user.getId()).orElseThrow().getEnabled());

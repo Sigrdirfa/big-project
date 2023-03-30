@@ -10,8 +10,15 @@ import java.util.Optional;
 
 @Repository
 public interface ConfirmTokenRepository extends JpaRepository<ConfirmToken, String> {
+    /**
+     * Find token by token
+     */
     @Query
     Optional<ConfirmToken> findByToken(String token);
+
+    /**
+     * Find token by user
+     */
     @Query
     Optional<ConfirmToken> findByUser(User user);
 }

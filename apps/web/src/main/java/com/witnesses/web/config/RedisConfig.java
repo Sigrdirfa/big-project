@@ -25,6 +25,9 @@ import java.time.Duration;
 @Configuration
 public class RedisConfig implements CachingConfigurer {
 
+    /**
+     * RedisTemplate配置
+     */
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
@@ -48,6 +51,9 @@ public class RedisConfig implements CachingConfigurer {
         return redisTemplate;
     }
 
+    /**
+     * Jackson 序列化配置
+     */
     @Bean
     public RedisSerializer<Object> redisSerializer() {
         //创建JSON序列化器
@@ -61,6 +67,9 @@ public class RedisConfig implements CachingConfigurer {
         return new Jackson2JsonRedisSerializer<>(objectMapper, Object.class);
     }
 
+    /**
+     * Redis缓存管理器
+     */
     @Bean
     public RedisCacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory) {
         RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory);
